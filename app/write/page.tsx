@@ -8,7 +8,7 @@ export default function WritePage() {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-  
+
   const [hasAcceptedAlready, setHasAcceptedAlready] = useState(false);
   const [checkboxChecked, setCheckboxChecked] = useState(false);
 
@@ -31,15 +31,8 @@ export default function WritePage() {
       }
       setUser(user);
 
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('accepted_terms')
-        .eq('id', user.id)
-        .single();
-
-      if (profile?.accepted_terms) {
-        setHasAcceptedAlready(true);
-      }
+      const { data: profile } = await supabase.from('profiles').select('accepted_terms').eq('id', user.id).single();
+      if (profile?.accepted_terms) setHasAcceptedAlready(true);
     }
     checkUser();
   }, [router]);
@@ -57,22 +50,13 @@ export default function WritePage() {
 
     try {
       if (!hasAcceptedAlready) {
-        await supabase
-          .from('profiles')
-          .update({ accepted_terms: true })
-          .eq('id', user.id);
+        await supabase.from('profiles').update({ accepted_terms: true }).eq('id', user.id);
       }
 
       const { data: story, error: sErr } = await supabase
         .from('stories')
-        .insert({
-          title,
-          description,
-          age_rating: ageRating,
-          author_id: user.id
-        })
-        .select()
-        .single();
+        .insert({ title, description, age_rating: ageRating, author_id: user.id })
+        .select().single();
 
       if (sErr) throw sErr;
 
@@ -85,28 +69,22 @@ export default function WritePage() {
           story_id: story.id,
           chapter_number: 1,
           title: chapterTitle,
-          content: content,
+          content,
           question_text: question,
           expires_at: expiresAt.toISOString()
         })
-        .select()
-        .single();
+        .select().single();
 
       if (cErr) throw cErr;
 
-      const optionsData = options.map(text => ({
-        chapter_id: chapter.id,
-        text: text,
-        votes: 0
-      }));
-
+      const optionsData = options.map(text => ({ chapter_id: chapter.id, text, votes: 0 }));
       const { error: oErr } = await supabase.from('options').insert(optionsData);
       if (oErr) throw oErr;
 
-      alert("Книга успешно опубликована!");
+      alert("Книга опубликована!");
       router.push('/');
     } catch (err: any) {
-      alert("Ошибка при публикации: " + err.message);
+      alert("Ошибка: " + err.message);
     } finally {
       setLoading(false);
     }
@@ -115,50 +93,38 @@ export default function WritePage() {
   if (!user) return null;
 
   return (
-    <div className="max-w-3xl mx-auto p-6 font-sans text-slate-900 dark:text-white bg-white dark:bg-[#0A0A0A] min-h-screen">
-      
-      {/* КНОПКА НАЗАД */}
+    <div className="max-w-3xl mx-auto px-4 py-6">
+      {/* HEADER */}
       <header className="mb-8">
-        <Link 
-          href="/dashboard" 
-          className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors mb-6"
-        >
-          <svg 
-            width="16" 
-            height="16" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2.5" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-          >
+        <Link href="/dashboard" className="inline-flex items-center gap-2 text-sm font-bold text-[#00D4FF] hover:text-[#4FC3F7] transition-colors mb-6">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
           </svg>
           <span>Назад в кабинет</span>
         </Link>
-        
-        <h1 className="text-4xl font-black tracking-tight text-slate-900 dark:text-white">
+
+        <h1 className="text-3xl md:text-4xl font-black tracking-tight text-[#1a3a4a]" style={{ fontFamily: "'Orbitron', sans-serif" }}>
           Новая история
         </h1>
       </header>
 
-      <section className="space-y-6 mb-12">
-        <input 
-          type="text" 
-          placeholder="Название книги" 
-          className="w-full text-3xl font-bold border-none outline-none placeholder:text-slate-300 dark:placeholder:text-gray-600 bg-transparent text-slate-900 dark:text-white"
+      {/* STORY INFO */}
+      <section className="space-y-5 mb-10">
+        <input
+          type="text"
+          placeholder="Название книги"
+          className="glass-input w-full text-2xl md:text-3xl font-bold p-4 text-[#1a3a4a] placeholder-[#3d6b7a]/40"
           onChange={e => setTitle(e.target.value)}
         />
-        <textarea 
-          placeholder="Краткое описание (аннотация)..." 
-          className="w-full border border-slate-200 dark:border-gray-800 p-4 rounded-2xl h-32 focus:ring-2 focus:ring-blue-500 outline-none resize-none bg-white dark:bg-gray-900 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-500"
+        <textarea
+          placeholder="Краткое описание (аннотация)..."
+          className="glass-input w-full p-4 h-32 text-[#1a3a4a] placeholder-[#3d6b7a]/40 resize-none"
           onChange={e => setDescription(e.target.value)}
         />
         <div className="flex items-center gap-4">
-          <span className="text-sm font-bold text-slate-500 dark:text-gray-500 uppercase">Рейтинг:</span>
-          <select 
-            className="p-2 border border-slate-200 dark:border-gray-800 rounded-xl font-bold bg-white dark:bg-gray-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          <span className="text-sm font-bold text-[#3d6b7a]/60 uppercase">Рейтинг:</span>
+          <select
+            className="glass-input p-3 font-bold text-[#1a3a4a]"
             value={ageRating}
             onChange={e => setAgeRating(e.target.value)}
           >
@@ -170,37 +136,38 @@ export default function WritePage() {
         </div>
       </section>
 
-      <section className="space-y-6 mb-8 bg-slate-50 dark:bg-[#1A1A1A] p-6 md:p-8 rounded-[32px] border border-slate-100 dark:border-gray-800">
-        <input 
-          type="text" 
+      {/* CHAPTER SECTION */}
+      <section className="space-y-5 mb-8 glass-card p-6 md:p-8">
+        <input
+          type="text"
           value={chapterTitle}
-          className="w-full bg-transparent border-b p-2 font-bold outline-none border-slate-200 dark:border-gray-700 focus:border-blue-500 text-slate-900 dark:text-white placeholder:text-slate-300"
+          className="glass-input w-full p-3 font-bold text-[#1a3a4a] placeholder-[#3d6b7a]/40"
           onChange={e => setChapterTitle(e.target.value)}
         />
-        <textarea 
-          placeholder="Текст вашей главы..." 
-          className="w-full border border-slate-200 dark:border-gray-800 p-4 rounded-2xl h-64 focus:ring-2 focus:ring-blue-500 outline-none bg-white dark:bg-gray-900 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-500"
+        <textarea
+          placeholder="Текст вашей главы..."
+          className="glass-input w-full p-4 h-64 text-[#1a3a4a] placeholder-[#3d6b7a]/40 resize-none"
           onChange={e => setContent(e.target.value)}
         />
-        
-        {/* ИСПРАВЛЕННЫЙ БЛОК ВОПРОСА - БОЛЕЕ МЯГКИЙ ДЛЯ СВЕТЛОЙ ТЕМЫ */}
-        <div className="bg-blue-50 dark:bg-gray-900 p-6 rounded-2xl text-slate-800 dark:text-white border border-blue-100 dark:border-gray-700">
-          <label className="block text-xs uppercase font-bold text-blue-600 dark:text-gray-400 mb-2">Вопрос читателям</label>
-          <input 
-            type="text" 
-            placeholder="Например: Как поступит герой?" 
-            className="w-full bg-white dark:bg-gray-800 p-3 rounded-xl mb-6 outline-none border border-blue-200 dark:border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-300 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-500"
+
+        {/* QUESTION BLOCK */}
+        <div className="glass-card p-6">
+          <label className="block text-xs uppercase font-bold text-[#00D4FF] mb-2">Вопрос читателям</label>
+          <input
+            type="text"
+            placeholder="Например: Как поступит герой?"
+            className="glass-input w-full p-3 mb-6 text-[#1a3a4a] placeholder-[#3d6b7a]/40"
             onChange={e => setQuestion(e.target.value)}
           />
-          
-          <label className="block text-xs uppercase font-bold text-blue-600 dark:text-gray-400 mb-2">Варианты ответов</label>
+
+          <label className="block text-xs uppercase font-bold text-[#00D4FF] mb-2">Варианты ответов</label>
           <div className="space-y-3">
             {options.map((opt, i) => (
-              <input 
-                key={i} 
-                type="text" 
+              <input
+                key={i}
+                type="text"
                 placeholder={`Вариант ${i+1}`}
-                className="w-full bg-white dark:bg-gray-800 p-3 rounded-xl outline-none border border-blue-200 dark:border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-300 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-500 transition-colors"
+                className="glass-input w-full p-3 text-[#1a3a4a] placeholder-[#3d6b7a]/40"
                 value={opt}
                 onChange={e => {
                   const newOpts = [...options];
@@ -211,39 +178,40 @@ export default function WritePage() {
             ))}
           </div>
 
-          <div className="mt-6 pt-6 border-t border-blue-100 dark:border-gray-700">
-            <label className="block text-xs uppercase font-bold text-blue-600 dark:text-gray-400 mb-2 text-center md:text-left">Длительность голосования (часы)</label>
-            <input 
-              type="number" 
+          <div className="mt-6 pt-6 border-t border-white/20">
+            <label className="block text-xs uppercase font-bold text-[#00D4FF] mb-2 text-center md:text-left">Длительность голосования (часы)</label>
+            <input
+              type="number"
               value={timerHours}
-              className="bg-white dark:bg-gray-800 p-2 rounded-lg w-full md:w-24 outline-none text-center font-bold text-slate-900 dark:text-white border border-blue-200 dark:border-gray-700 focus:border-blue-500"
+              className="glass-input p-3 w-full md:w-24 text-center font-bold text-[#1a3a4a]"
               onChange={e => setTimerHours(Number(e.target.value))}
             />
           </div>
         </div>
       </section>
 
-      {/* Блок подтверждения оферты для новых авторов */}
+      {/* TERMS CHECKBOX */}
       {!hasAcceptedAlready && (
-        <div className="mb-8 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-800/30">
+        <div className="mb-8 glass-card p-6">
           <label className="flex items-start gap-4 cursor-pointer">
-            <input 
-              type="checkbox" 
-              className="mt-1 w-6 h-6 rounded border-blue-300 dark:border-blue-700 text-blue-600 dark:text-blue-500 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-900"
+            <input
+              type="checkbox"
+              className="mt-1 w-6 h-6 rounded border-white/30 text-[#00D4FF] focus:ring-[#00D4FF] bg-white/10"
               checked={checkboxChecked}
               onChange={e => setCheckboxChecked(e.target.checked)}
             />
-            <span className="text-sm leading-relaxed text-slate-700 dark:text-gray-300">
-              Я принимаю <Link href="/author-terms" className="text-blue-600 dark:text-blue-400 font-bold underline">Условия размещения контента</Link>
+            <span className="text-sm leading-relaxed text-[#3d6b7a]">
+              Я принимаю <Link href="/author-terms" className="text-[#00D4FF] font-bold underline">Условия размещения контента</Link>
             </span>
           </label>
         </div>
       )}
 
-      <button 
+      {/* PUBLISH BUTTON */}
+      <button
         onClick={handlePublish}
         disabled={loading}
-        className="w-full bg-blue-600 dark:bg-blue-700 text-white p-6 rounded-3xl font-black text-xl hover:bg-blue-700 dark:hover:bg-blue-800 transition shadow-xl shadow-blue-200 dark:shadow-blue-900/30 disabled:bg-slate-300 dark:disabled:bg-gray-800 disabled:shadow-none"
+        className="w-full glass-button py-5 font-black text-xl text-[#1a3a4a] hover:text-[#00D4FF] transition disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {loading ? 'ПУБЛИКАЦИЯ...' : 'ОПУБЛИКОВАТЬ КНИГУ'}
       </button>

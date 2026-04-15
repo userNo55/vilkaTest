@@ -39,59 +39,35 @@ export default function ProfilePage() {
     });
 
     if (error) alert("Ошибка: возможно псевдоним уже занят");
-    else alert("Профиль успешно обновлен!");
+    else alert("Профиль обновлён!");
   };
 
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
-    if (error) {
-      alert('Ошибка при выходе: ' + error.message);
-    } else {
+    if (error) alert('Ошибка: ' + error.message);
+    else {
       router.push('/');
       router.refresh();
     }
   };
 
-  if (loading) return <div className="p-10 text-center font-sans">Загрузка...</div>;
-  if (!user) return <div className="p-10 text-center font-sans">Нужно войти в систему</div>;
+  if (loading) return <div className="p-10 text-center text-[#3d6b7a] font-semibold animate-pulse">Загрузка...</div>;
+  if (!user) return <div className="p-10 text-center text-[#3d6b7a]">Нужно войти в систему</div>;
 
   return (
-    <div className="max-w-2xl mx-auto p-6 font-sans text-slate-900 dark:text-white">
-      {/* ИСПРАВЛЕННЫЙ ХЕДЕР */}
-      <header className="flex items-center gap-4 mb-10 py-4 border-b border-slate-100 dark:border-gray-800">
-        {/* Кнопка назад слева */}
-        <Link 
-          href="/" 
-          className="flex-shrink-0 text-sm font-bold text-blue-600 dark:text-blue-400 flex items-center gap-2 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
-        >
-          <span>←</span>
+    <div className="max-w-2xl mx-auto px-4 py-6">
+      {/* HEADER */}
+      <header className="glass-card px-6 py-4 mb-6 flex items-center justify-between">
+        <Link href="/" className="text-[#00D4FF] font-bold hover:text-[#4FC3F7] transition flex items-center gap-2 text-lg">
+          ←
         </Link>
-        
-        {/* Пустое пространство, которое растягивается */}
-        <div className="flex-grow"></div>
-        
-        {/* Заголовок справа */}
-        <h1 className="text-lg font-black uppercase tracking-widest text-slate-900 dark:text-white">
-          Настройки
-        </h1>
-        
-        {/* Кнопка выхода справа */}
-        <button 
+        <h1 className="text-lg font-black uppercase tracking-widest text-[#1a3a4a]">Настройки</h1>
+        <button
           onClick={handleSignOut}
-          className="flex-shrink-0 p-2 rounded-full hover:bg-slate-100 dark:hover:bg-gray-800 transition-colors group"
-          title="Выйти из аккаунта"
+          className="p-2 rounded-full hover:bg-white/10 transition-colors group"
+          title="Выйти"
         >
-          <svg 
-            width="20" 
-            height="20" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-            className="text-slate-500 dark:text-gray-400 group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors"
-          >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#3d6b7a] group-hover:text-[#FF6B9D] transition-colors">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
             <polyline points="16 17 21 12 16 7" />
             <line x1="21" y1="12" x2="9" y2="12" />
@@ -99,55 +75,55 @@ export default function ProfilePage() {
         </button>
       </header>
 
-      {/* Остальной код остается без изменений */}
-      <div className="bg-white dark:bg-[#1A1A1A] border border-slate-100 dark:border-gray-800 p-8 rounded-[40px] shadow-2xl shadow-slate-200/50 dark:shadow-none">
+      {/* PROFILE CARD */}
+      <div className="glass-card p-8">
         <div className="flex flex-col items-center mb-8">
-          <div className="w-24 h-24 rounded-full bg-slate-100 dark:bg-gray-800 mb-4 overflow-hidden border-4 border-white dark:border-gray-900 shadow-md">
+          <div className="w-24 h-24 rounded-full bg-white/20 mb-4 overflow-hidden border-4 border-white/30">
             {avatarUrl ? (
               <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-3xl text-slate-400 dark:text-gray-500">👤</div>
+              <div className="w-full h-full flex items-center justify-center text-3xl">👤</div>
             )}
           </div>
-          <p className="text-xs text-slate-400 dark:text-gray-500 font-bold uppercase">Фото автора</p>
+          <p className="text-xs text-[#3d6b7a]/60 font-bold uppercase">Фото автора</p>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-5">
           <div>
-            <label className="block text-xs font-black uppercase text-slate-400 dark:text-gray-500 mb-2 ml-1">Псевдоним</label>
-            <input 
-              type="text" 
-              value={pseudonym} 
+            <label className="block text-xs font-black uppercase text-[#3d6b7a]/60 mb-2 ml-1">Псевдоним</label>
+            <input
+              type="text"
+              value={pseudonym}
               onChange={(e) => setPseudonym(e.target.value)}
-              className="w-full border-2 border-slate-50 dark:border-gray-800 bg-slate-50 dark:bg-gray-900 p-4 rounded-2xl focus:bg-white dark:focus:bg-gray-800 focus:border-blue-500 outline-none transition text-slate-900 dark:text-white"
+              className="glass-input w-full p-4 text-[#1a3a4a] placeholder-[#3d6b7a]/40"
               placeholder="Как вас называть?"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-black uppercase text-slate-400 dark:text-gray-500 mb-2 ml-1">Ссылка на аватар (URL)</label>
-            <input 
-              type="text" 
-              value={avatarUrl} 
+            <label className="block text-xs font-black uppercase text-[#3d6b7a]/60 mb-2 ml-1">Ссылка на аватар (URL)</label>
+            <input
+              type="text"
+              value={avatarUrl}
               onChange={(e) => setAvatarUrl(e.target.value)}
-              className="w-full border-2 border-slate-50 dark:border-gray-800 bg-slate-50 dark:bg-gray-900 p-4 rounded-2xl focus:bg-white dark:focus:bg-gray-800 focus:border-blue-500 outline-none transition text-slate-900 dark:text-white"
+              className="glass-input w-full p-4 text-[#1a3a4a] placeholder-[#3d6b7a]/40"
               placeholder="https://image.com"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-black uppercase text-slate-400 dark:text-gray-500 mb-2 ml-1">Биография</label>
-            <textarea 
-              value={bio} 
+            <label className="block text-xs font-black uppercase text-[#3d6b7a]/60 mb-2 ml-1">Биография</label>
+            <textarea
+              value={bio}
               onChange={(e) => setBio(e.target.value)}
-              className="w-full border-2 border-slate-50 dark:border-gray-800 bg-slate-50 dark:bg-gray-900 p-4 rounded-2xl focus:bg-white dark:focus:bg-gray-800 focus:border-blue-500 outline-none transition h-32 text-slate-900 dark:text-white"
+              className="glass-input w-full p-4 h-32 text-[#1a3a4a] placeholder-[#3d6b7a]/40 resize-none"
               placeholder="Расскажите о себе читателям..."
             />
           </div>
 
-          <button 
-            onClick={saveProfile} 
-            className="w-full bg-slate-900 dark:bg-blue-600 text-white p-5 rounded-2xl font-bold hover:bg-blue-600 dark:hover:bg-blue-700 transition shadow-lg shadow-blue-100 dark:shadow-blue-900/30 mt-4"
+          <button
+            onClick={saveProfile}
+            className="w-full glass-button py-4 font-bold text-[#1a3a4a] hover:text-[#00D4FF] transition"
           >
             Сохранить изменения
           </button>

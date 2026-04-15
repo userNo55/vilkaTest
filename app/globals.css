@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme inline {
@@ -5,30 +6,205 @@
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
 }
 
+/* ============================================
+   GLASSMORPHISM AQUA-CYAN THEME
+   Inspired by VILKA 2.0 design
+   ============================================ */
+
 :root {
-  --background: #ffffff; 
-  --foreground: #20242f; 
+  /* Background gradient */
+  --bg-start: #7EC8E3;
+  --bg-end: #4A90A4;
+  
+  /* Glass card backgrounds */
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-shadow: rgba(0, 0, 0, 0.08);
+  
+  /* Text colors */
+  --text-primary: #1a3a4a;
+  --text-secondary: #3d6b7a;
+  --text-muted: rgba(26, 58, 74, 0.6);
+  
+  /* Accent colors */
+  --accent-cyan: #00D4FF;
+  --accent-blue: #4FC3F7;
+  --accent-green: #4AE8A5;
+  --accent-pink: #FF6B9D;
+  --accent-purple: #B388FF;
+  --accent-orange: #FFB74D;
+  
+  /* Badge backgrounds */
+  --badge-bg: rgba(255, 255, 255, 0.25);
+  --badge-border: rgba(255, 255, 255, 0.4);
+  
+  /* Glow effects */
+  --glow-cyan: 0 0 20px rgba(0, 212, 255, 0.4);
+  --glow-green: 0 0 12px rgba(74, 232, 165, 0.5);
+  --glow-pink: 0 0 12px rgba(255, 107, 157, 0.5);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1e2027; 
-    --foreground: #f1f5f9; 
-  }
+/* Base background */
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+  color: var(--text-primary);
+  @apply font-sans;
 }
 
+/* ============================================
+   GLASS CARD COMPONENT
+   ============================================ */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  box-shadow: 
+    0 8px 32px var(--glass-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================
+   GLASS BUTTON
+   ============================================ */
+.glass-button {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.glass-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: var(--glow-cyan);
+}
+
+.glass-button:active {
+  transform: scale(0.98);
+}
+
+/* Active state for filter buttons */
+.glass-button-active {
+  background: rgba(0, 212, 255, 0.3);
+  border-color: var(--accent-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+/* ============================================
+   BADGE / TAG STYLES
+   ============================================ */
+.glass-badge {
+  background: var(--badge-bg);
+  border: 1px solid var(--badge-border);
+  border-radius: 50px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ============================================
+   INPUT STYLES
+   ============================================ */
+.glass-input {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.glass-input:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow: var(--glow-cyan);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ============================================
+   TEXT COLORS
+   ============================================ */
+.text-primary-custom {
+  color: var(--text-primary);
+}
+
+.text-secondary-custom {
+  color: var(--text-secondary);
+}
+
+.text-muted-custom {
+  color: var(--text-muted);
+}
+
+/* ============================================
+   SPECIAL EFFECTS
+   ============================================ */
+
+/* Pink heart glow */
+.heart-glow {
+  filter: drop-shadow(0 0 8px rgba(255, 107, 157, 0.6));
+}
+
+/* Green dot pulse */
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(74, 232, 165, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(74, 232, 165, 0); }
+}
+
+.dot-pulse {
+  animation: pulse-green 2s infinite;
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Override font variables */
 @layer base {
+  :root {
+    --font-display: 'Orbitron', var(--font-geist-sans), sans-serif;
+    --font-body: 'Rajdhani', var(--font-geist-sans), sans-serif;
+  }
+  
   body {
-    background-color: var(--background);
-    color: var(--foreground);
-    @apply transition-colors duration-300;
+    font-family: var(--font-body);
+    font-weight: 500;
   }
-
-  h1, h2, h3, h4 {
-    @apply text-slate-900 dark:text-white;
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    color: var(--text-primary);
   }
-}
-
-* {
-  @apply border-slate-200 dark:border-slate-800;
 }
