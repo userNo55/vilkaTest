@@ -158,7 +158,7 @@ export default function HomePage() {
             className={`glass-button px-5 py-3 flex items-center gap-2 whitespace-nowrap font-semibold text-sm ${
               showActiveOnly
                 ? 'glass-button-active text-[#1a3a4a]'
-                : 'text-[#3d6b7a] hover:text-[#4AE8A5]'
+                : 'text-[#3d6b7a] hover:text-[#1a3a4a]'
             }`}
           >
             <FaRegClock className="w-4 h-4" />
@@ -244,7 +244,7 @@ export default function HomePage() {
                       ⚡ {story.engagement || 0}
                     </span>
 
-                    <span className="glass-badge text-[10px] font-bold text-[#4FC3F7] px-3 py-1.5 uppercase">
+                    <span className="bg-[#00D4FF] text-[10px] font-bold text-[#1a3a4a] px-3 py-1.5 rounded-full uppercase">
                       {story.chapters?.length || 0} ГЛАВ
                     </span>
 
@@ -298,7 +298,7 @@ export default function HomePage() {
               onClick={() => setSortOrder(sortOrder === 'new' ? 'engagement' : 'new')}
               className={`p-3 rounded-full transition-all duration-300 ${
                 sortOrder === 'engagement'
-                  ? 'bg-[#FFB74D]/30 text-[#FFB74D]'
+                  ? 'bg-[#FFB74D]/30 text-[#1a3a4a]'
                   : 'bg-white/10 text-[#3d6b7a]'
               }`}
             >
@@ -311,7 +311,7 @@ export default function HomePage() {
               onClick={() => setShowActiveOnly(!showActiveOnly)}
               className={`p-3 rounded-full transition-all duration-300 ${
                 showActiveOnly
-                  ? 'bg-[#4AE8A5]/30 text-[#4AE8A5]'
+                  ? 'bg-[#00D4FF]/30 text-[#1a3a4a]'
                   : 'bg-white/10 text-[#3d6b7a]'
               }`}
             >
@@ -322,7 +322,7 @@ export default function HomePage() {
               onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
               className={`p-3 rounded-full transition-all duration-300 ${
                 showFavoritesOnly
-                  ? 'bg-[#FF6B9D]/30 text-[#FF6B9D]'
+                  ? 'bg-[#FF6B9D]/30 text-[#1a3a4a]'
                   : 'bg-white/10 text-[#3d6b7a]'
               }`}
             >
