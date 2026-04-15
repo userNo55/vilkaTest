@@ -4,7 +4,9 @@
       "Read(c:\\Users\\Natalia\\Downloads/**)",
       "Bash(npm run *)",
       "Bash(git remote *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)"
     ]
   },
   "$version": 3
