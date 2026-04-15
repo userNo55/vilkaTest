@@ -42,7 +42,7 @@ export default function Dashboard() {
     <div className="max-w-5xl mx-auto px-4 py-6 min-h-screen">
       {/* HEADER */}
       <header className="glass-card px-6 py-4 mb-6 flex justify-between items-center">
-        <Link href="/" className="text-sm font-bold text-[#00D4FF] hover:text-[#4FC3F7] transition flex items-center gap-2">
+        <Link href="/" className="text-sm font-bold text-[#1a3a4a] hover:text-[#00D4FF] transition flex items-center gap-2">
           <span>←</span> На главную
         </Link>
         <div className="flex items-center gap-3">

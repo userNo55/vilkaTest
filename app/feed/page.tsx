@@ -284,7 +284,7 @@ export default function FeedPage() {
               <h3 className="text-lg font-bold mb-4 text-[#1a3a4a]">{currentChapter.question_text}</h3>
 
               <div className="space-y-3">
-                {currentChapter.options?.map((opt: any) => {
+                {currentChapter.options?.map((opt: any, index: number) => {
                   const percentage = totalVotes > 0 ? Math.round((opt.votes / totalVotes) * 100) : 0;
                   const canUserVote = isVoteActive && !hasVoted && user;
 
@@ -296,11 +296,26 @@ export default function FeedPage() {
                         className="relative w-full text-left p-4 rounded-xl border border-white/20 bg-white/10 overflow-hidden transition-all disabled:cursor-not-allowed disabled:opacity-50 hover:bg-white/20"
                       >
                         {(hasVoted || !isVoteActive) && (
-                          <div className="absolute top-0 left-0 h-full bg-[#00D4FF]/20 transition-all" style={{ width: `${percentage}%` }} />
+                          <div className={`absolute top-0 left-0 h-full transition-all ${
+                            index === 0 ? 'bg-[#4AE8A5]/25' :
+                            index === 1 ? 'bg-[#FF6B9D]/25' :
+                            index === 2 ? 'bg-[#B388FF]/25' :
+                            'bg-[#FFB74D]/25'
+                          }`} style={{ width: `${percentage}%` }} />
                         )}
 
-                        <div className="relative flex justify-between items-center z-10 text-[#1a3a4a]">
-                          <span>{opt.text}</span>
+                        <div className="relative flex justify-between items-center z-10">
+                          <span className="font-semibold text-base text-[#1a3a4a]">
+                            <span className={`inline-block text-xs font-bold px-2 py-0.5 rounded text-white mr-2 ${
+                              index === 0 ? 'bg-[#4AE8A5]' :
+                              index === 1 ? 'bg-[#FF6B9D]' :
+                              index === 2 ? 'bg-[#B388FF]' :
+                              'bg-[#FFB74D]'
+                            }`}>
+                              {index + 1}
+                            </span>
+                            {opt.text}
+                          </span>
                           {(hasVoted || !isVoteActive) && (
                             <span className="text-sm font-medium text-[#3d6b7a]">{percentage}%</span>
                           )}

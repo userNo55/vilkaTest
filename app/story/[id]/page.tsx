@@ -310,7 +310,7 @@ export default function StoryPage({ params }: { params: Promise<{ id: string }> 
     <div className="max-w-2xl mx-auto px-4 py-6 min-h-screen">
       {/* HEADER */}
       <header className="glass-card px-6 py-4 mb-6 flex justify-between items-center">
-        <Link href="/" className="text-[#00D4FF] font-bold hover:text-[#4FC3F7] transition-colors">← К списку</Link>
+        <Link href="/" className="text-[#1a3a4a] font-bold hover:text-[#00D4FF] transition-colors">← К списку</Link>
         {user && (
           <Link href="/buy" className="glass-button px-4 py-2 text-sm font-bold text-[#1a3a4a]">
             Баланс: {userCoins} ⚡
@@ -427,16 +427,16 @@ export default function StoryPage({ params }: { params: Promise<{ id: string }> 
                                   <div className="flex justify-between items-center gap-4">
                                     <div className="flex-1">
                                       <div className="flex items-center gap-2 mb-2">
-                                        <span className={`text-xs font-bold px-2 py-1 rounded ${
-                                          index === 0 ? 'bg-[#4AE8A5]/20 text-[#4AE8A5]' :
-                                          index === 1 ? 'bg-[#FF6B9D]/20 text-[#FF6B9D]' :
-                                          index === 2 ? 'bg-[#B388FF]/20 text-[#B388FF]' :
-                                          'bg-[#FFB74D]/20 text-[#FFB74D]'
+                                        <span className={`text-xs font-bold px-2 py-1 rounded text-white ${
+                                          index === 0 ? 'bg-[#4AE8A5]' :
+                                          index === 1 ? 'bg-[#FF6B9D]' :
+                                          index === 2 ? 'bg-[#B388FF]' :
+                                          'bg-[#FFB74D]'
                                         }`}>
                                           Вариант {index + 1}
                                         </span>
                                       </div>
-                                      <p className="text-[#1a3a4a] font-medium">{opt.text}</p>
+                                      <p className="text-[#1a3a4a] font-semibold text-base">{opt.text}</p>
                                     </div>
 
                                     <div className="hidden sm:flex items-center gap-3">

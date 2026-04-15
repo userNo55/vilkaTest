@@ -137,8 +137,8 @@ export default function HomePage() {
           </div>
         </header>
 
-        {/* ===== FILTER TABS ===== */}
-        <div className="flex gap-3 mb-8 overflow-x-auto pb-2 scrollbar-hide">
+        {/* ===== FILTER TABS (DESKTOP ONLY) ===== */}
+        <div className="hidden md:flex gap-3 mb-8 overflow-x-auto pb-2 scrollbar-hide">
           <button
             onClick={() => setSortOrder(sortOrder === 'new' ? 'engagement' : 'new')}
             className={`glass-button px-5 py-3 flex items-center gap-2 whitespace-nowrap font-semibold text-sm ${

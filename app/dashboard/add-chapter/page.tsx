@@ -47,89 +47,79 @@ function AddChapterForm() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 font-sans text-slate-900 dark:text-white bg-white dark:bg-[#0A0A0A] min-h-screen">
-      
-      {/* ХЕДЕР С КНОПКОЙ НАЗАД */}
+    <div className="max-w-2xl mx-auto px-4 py-6">
+      {/* HEADER */}
       <header className="mb-8">
-        <Link 
-          href="/dashboard" 
-          className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors mb-6"
+        <Link
+          href="/dashboard"
+          className="inline-flex items-center gap-2 text-sm font-bold text-[#1a3a4a] hover:text-[#00D4FF] transition-colors mb-6"
         >
-          <svg 
-            width="16" 
-            height="16" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2.5" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-          >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
           </svg>
           <span>Назад в кабинет</span>
         </Link>
-        
-        <h1 className="text-2xl font-black mb-8 text-blue-600 dark:text-blue-400">
+
+        <h1 className="text-2xl font-black text-[#1a3a4a]" style={{ fontFamily: "'Orbitron', sans-serif" }}>
           Добавить главу {nextNum}
         </h1>
       </header>
 
-      {/* ПОЛЯ ДЛЯ ГЛАВЫ */}
+      {/* CHAPTER FIELDS */}
       <div className="space-y-4 mb-8">
-        <input 
-          type="text" 
-          placeholder="Название главы" 
-          className="w-full p-4 border border-slate-200 dark:border-gray-800 rounded-xl bg-white dark:bg-gray-900 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onChange={e => setTitle(e.target.value)} 
+        <input
+          type="text"
+          placeholder="Название главы"
+          className="glass-input w-full p-4 text-[#1a3a4a] placeholder-[#3d6b7a]/40"
+          onChange={e => setTitle(e.target.value)}
         />
-        <textarea 
-          placeholder="Текст истории..." 
-          className="w-full p-4 border border-slate-200 dark:border-gray-800 rounded-xl h-64 bg-white dark:bg-gray-900 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-          onChange={e => setContent(e.target.value)} 
+        <textarea
+          placeholder="Текст истории..."
+          className="glass-input w-full p-4 h-64 text-[#1a3a4a] placeholder-[#3d6b7a]/40 resize-none"
+          onChange={e => setContent(e.target.value)}
         />
       </div>
-      
-      {/* ИСПРАВЛЕННЫЙ БЛОК ВОПРОСА */}
-      <div className="bg-blue-50 dark:bg-gray-900 p-6 rounded-3xl border border-blue-100 dark:border-gray-700 space-y-4 mb-8">
-        <input 
-          type="text" 
-          placeholder="Вопрос читателям" 
-          className="w-full bg-white dark:bg-gray-800 p-3 rounded-xl border border-blue-200 dark:border-gray-700 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-300 dark:focus:ring-blue-500"
-          onChange={e => setQuestion(e.target.value)} 
+
+      {/* QUESTION BLOCK */}
+      <div className="glass-card p-6 space-y-4 mb-8">
+        <input
+          type="text"
+          placeholder="Вопрос читателям"
+          className="glass-input w-full p-3 text-[#1a3a4a] placeholder-[#3d6b7a]/40"
+          onChange={e => setQuestion(e.target.value)}
         />
-        
+
         {options.map((opt, i) => (
-          <input 
-            key={i} 
-            placeholder={`Вариант ${i+1}`} 
-            className="w-full bg-white dark:bg-gray-800 p-3 rounded-xl border border-blue-200 dark:border-gray-700 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-300 dark:focus:ring-blue-500"
-            value={opt} 
+          <input
+            key={i}
+            placeholder={`Вариант ${i+1}`}
+            className="glass-input w-full p-3 text-[#1a3a4a] placeholder-[#3d6b7a]/40"
+            value={opt}
             onChange={e => {
-              const n = [...options]; 
-              n[i] = e.target.value; 
+              const n = [...options];
+              n[i] = e.target.value;
               setOptions(n);
-            }} 
+            }}
           />
         ))}
-        
+
         <div>
-          <label className="text-xs text-blue-600 dark:text-gray-400 block mb-1 font-bold uppercase">
+          <label className="text-xs text-[#3d6b7a] block mb-1 font-bold uppercase">
             Голосование в часах:
           </label>
-          <input 
-            type="number" 
-            value={hours} 
-            className="bg-white dark:bg-gray-800 p-2 rounded-lg w-20 border border-blue-200 dark:border-gray-700 text-slate-900 dark:text-white text-center font-bold focus:outline-none focus:ring-1 focus:ring-blue-300 dark:focus:ring-blue-500"
-            onChange={e => setHours(Number(e.target.value))} 
+          <input
+            type="number"
+            value={hours}
+            className="glass-input p-3 w-24 text-center font-bold text-[#1a3a4a]"
+            onChange={e => setHours(Number(e.target.value))}
           />
         </div>
       </div>
 
-      <button 
-        onClick={handleAdd} 
-        disabled={loading} 
-        className="w-full bg-blue-600 dark:bg-blue-700 text-white p-5 rounded-2xl font-bold hover:bg-blue-700 dark:hover:bg-blue-800 transition shadow-lg shadow-blue-200 dark:shadow-blue-900/30 disabled:bg-slate-300 dark:disabled:bg-gray-800 disabled:shadow-none"
+      <button
+        onClick={handleAdd}
+        disabled={loading}
+        className="w-full glass-button py-5 font-bold text-[#1a3a4a] hover:text-[#00D4FF] transition disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {loading ? 'Публикация...' : 'Опубликовать продолжение'}
       </button>
@@ -139,7 +129,7 @@ function AddChapterForm() {
 
 export default function Page() {
   return (
-    <Suspense fallback={<div className="p-10 text-center font-sans text-slate-900 dark:text-white">Загрузка...</div>}>
+    <Suspense fallback={<div className="p-10 text-center text-[#3d6b7a] font-semibold animate-pulse">Загрузка...</div>}>
       <AddChapterForm />
     </Suspense>
   );
